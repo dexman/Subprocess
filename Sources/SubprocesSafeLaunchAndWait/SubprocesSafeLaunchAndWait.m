@@ -12,7 +12,6 @@
 - (BOOL)safeLaunchAndWaitWithError:(NSError **)error
 {
     @try {
-        return [self launchAndReturnError:error];
         [self launch];
     } @catch (NSException *exception) {
         if (error) {
