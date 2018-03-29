@@ -11,16 +11,9 @@
 
 - (BOOL)safeLaunchAndWaitWithError:(NSError **)error
 {
-    @try {
-        [self launch];
-    } @catch (NSException *exception) {
-        if (error) {
-            NSDictionary *userInfo = @{@"exception": exception};
-            *error = [NSError errorWithDomain:@"NSTaskSafeLaunchAndWait" code:0 userInfo:userInfo];
-        }
+    if (![self launchAndReturnError:error]) {
         return NO;
     }
-
     [self waitUntilExit];
     return YES;
 }

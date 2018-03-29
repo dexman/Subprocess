@@ -61,13 +61,13 @@ public struct SubprocessResult {
     public var success: Bool {
         return terminationStatus == 0
     }
-    
+
     /// The termination status the process exited with.
     public let terminationStatus: Int
-    
+
     /// Standard output.
     public let standardOutput: String
-    
+
     /// Standard error.
     public let standardError: String
 }
