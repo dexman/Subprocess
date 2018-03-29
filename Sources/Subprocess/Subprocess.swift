@@ -58,18 +58,18 @@ public enum SubprocessError: Error {
 /// The result of running a process.
 public struct SubprocessResult {
     /// Shortcut for `terminationStatus == 0`
-    var success: Bool {
+    public var success: Bool {
         return terminationStatus == 0
     }
-
+    
     /// The termination status the process exited with.
-    let terminationStatus: Int
-
+    public let terminationStatus: Int
+    
     /// Standard output.
-    let standardOutput: String
-
+    public let standardOutput: String
+    
     /// Standard error.
-    let standardError: String
+    public let standardError: String
 }
 
 /// Get the list of paths from the PATH environment variable.
