@@ -15,8 +15,8 @@ public func run(_ command: String, _ arguments: [String]? = nil, path customPath
     let process = Process()
 
     // Configure basic launch path + arguments.
-    process.launchPath = findLaunchPath(of: command, in: path)
-    process.arguments = arguments
+    process.launchPath = try findLaunchPath(of: command, in: path)
+    process.arguments = arguments ?? []
 
     // Change working directory if needed.
     if let workingDirectoryPath = workingDirectoryPath {
@@ -79,7 +79,7 @@ func processEnvironmentPath() -> [String] {
 }
 
 /// Compute the (absolute or relative) launchPath for a command.
-func findLaunchPath(of command: String, in path: [String]) -> String {
+func findLaunchPath(of command: String, in path: [String]) throws -> String {
     if command.pathComponents.count > 1 {
         return command
     }
@@ -89,7 +89,11 @@ func findLaunchPath(of command: String, in path: [String]) -> String {
         .lazy
         .map { $0.appendingPathComponent(command) }
         .first { fileManager.isExecutableFile(atPath: $0) }
-    return launchPath ?? command
+
+    guard let result = launchPath else {
+        throw SubprocessError.commandNotFound(command: command, path: path)
+    }
+    return result
 }
 
 class ProcessPipe {
